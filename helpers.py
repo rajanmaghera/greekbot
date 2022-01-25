@@ -1,6 +1,4 @@
-
 from constants import *
-
 
 def messageEphemeral(app, text, body, title=BOT_TITLE):
 
@@ -39,4 +37,17 @@ def messageEphemeral(app, text, body, title=BOT_TITLE):
                 ]
             }
         )
+
+def messageTreasurer(app, message):
+    app.client.chat_postMessage(
+        # as_user=False,
+        channel=TREASURER_USER_ID,
+        text=message
+    )
+
+def messageUser(app, message, user):
+    app.client.chat_postMessage(
+        channel=user,
+        text=message,
+    )
 
