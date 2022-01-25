@@ -1,10 +1,22 @@
 # GreekBot
-A Slack Bot for Greek organisations (fraternities &amp; sororities)
+A Slack Bot for keeping Greek organisations (fraternities &amp; sororities) organized.
 
 # Supported Commands
-`/dues` View amount owed by the individual
-`/reimbursement` Submit a reimbursment form
 
+|Slash Command|Description|
+|-|-|
+|`/dues/`|View amount owed by current user|
+
+# Roadmap
+|Slash Command|Description|
+|-|-|
+|`/reimbursement`|Reimbursement form|
+|`/trivia`|Chapter trivia on history|
+
+## Ideas
+[ ] Attendance Tracking 
+[ ] Rush Tracking
+[ ] Family Trees
 # Requirements
 Install Python requirements by running `python -m pip install -r requirements.txt`
 
