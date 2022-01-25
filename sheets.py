@@ -3,6 +3,7 @@ from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
+from constants import *
 
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
 
@@ -31,3 +32,10 @@ def getSheet():
 
     # Retrieve the documents contents from the Docs service.
     return service.spreadsheets().values()
+
+def getSheetValues(range):
+    document = getSheet().get(spreadsheetId=DOCUMENT_ID, range=range).execute()
+    return document.get('values', [])
+
+def getSheetAppend(range, body):
+    getSheet().append(spreadsheetId=DOCUMENT_ID, valueInputOption="USER_ENTERED", range=range, body=body).execute()
