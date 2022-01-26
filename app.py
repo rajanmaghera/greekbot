@@ -1,5 +1,6 @@
+import datetime
 from slack_bolt import App
-
+from dateutil import relativedelta
 from slack_bolt.adapter.socket_mode import SocketModeHandler
 from sheets import *
 from constants import *
@@ -26,6 +27,40 @@ def handle_dues(ack, body, logger):
 
             messageEphemeral(app, text, body, title="Dues")
 
+
+@app.command("/kitchenday")
+def handle_kitchenday(ack, body, logger):
+    ack()
+
+    values = getSheetValues("Kitchen!A1:B15")
+    totalAmount = len(values)
+    print(totalAmount)    
+
+
+    myI = list(map(lambda x: x[1], values)).index(body["user_id"])
+
+
+    if myI == -1:
+        messageEphemeral("You are not on the kitchen day list", body["user_id"], title="Kitchenday!")
+        return
+        
+    datetime.date(year=2021, month=12, day=18)
+    delta = relativedelta.relativedelta(datetime.date.today(), datetime.date(year=2021, month=12, day=18))
+    remDelta = (myI - delta.days) % 12
+
+    if remDelta != 0:
+
+        sTag = "" if remDelta == 1 else "s"
+        nextDay = datetime.date.today() + datetime.timedelta(days=remDelta)
+        nextDayString = nextDay.strftime("%A, %B %d")
+        message = f"Your next kitchen day is in {remDelta} day{sTag} (on {nextDayString}).\n\n"
+
+        today = delta.days % 12
+        message += "It is {}'s kitchen day.\n".format(values[today][0])
+
+        messageEphemeral(message, body, title="Kitchenday!")
+    else:
+        messageEphemeral("It is your kitchen day!\n", body, title="Kitchenday!")
 
 
 # Start your app
